@@ -13,37 +13,57 @@ The framework follows the Page Object Model (POM) design pattern and supports da
 
 The automation covers ERP application modules like Login, Supplier Management, and Customer Management.
 
+# Modules Covered
+
+✔ Login Test
+
+✔ Supplier Creation Test
+
+✔ Customer Creation Test
  
-# Modules Covered 
- ✔ Login Test
- ✔ Supplier Creation Test
- ✔ Customer Creation Test
- 
-# Technologies Used 
-- Java 21 
-- Selenium WebDriver 4.29.0 
-- TestNG 7.11.0 
-- Maven 
+# Technologies Used
+
+- Java 21
+
+- Selenium WebDriver 4.29.0
+
+- TestNG 7.11.0
+
+- Maven
+
 - Page Object Model (POM)
+
 - Apache POI (Excel Data Handling)
-- Extent Reports 
-- Log4j2 Logging 
-- Git & GitHub 
+
+- Extent Reports
+
+- Log4j2 Logging
+
+- Git & GitHub
+
 - Jenkins (CI/CD Integration)
 
- --- 
+# Framework Features
 
-# Framework Features 
-✔ Page Object Model Framework 
-✔ TestNG Test Execution 
-✔ Maven Build Management 
-✔ Data Driven Testing using Excel 
-✔ Config File Management 
-✔ Extent HTML Reports 
-✔ Screenshot Capture on Test Failure 
-✔ Log4j2 Application Logging 
-✔ Reusable Page Classes 
-✔ Cross Browser Execution Support 
+✔ Page Object Model Framework
+
+✔ TestNG Test Execution
+
+✔ Maven Build Management
+
+✔ Data Driven Testing using Excel
+
+✔ Config File Management
+
+✔ Extent HTML Reports
+
+✔ Screenshot Capture on Test Failure
+
+✔ Log4j2 Application Logging
+
+✔ Reusable Page Classes
+
+✔ Cross Browser Execution Support
 
 
 # Project Structure
@@ -103,10 +123,13 @@ ERPAutomation_SeleniumJava
 
 Latest Execution:
 
- Total tests run: 7 
- Passes: 7 
- Failures: 0 
- Skips: 0
+✔ Total Tests Run: 7
+
+✔ Passed: 7
+
+✔ Failed: 0
+
+✔ Skipped: 0
  
 # How to Run Tests 
 
