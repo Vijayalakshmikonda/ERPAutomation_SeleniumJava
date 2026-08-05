@@ -94,10 +94,7 @@ public class AddSuppliers {
             "//table[contains(@class,'ewTable')]//span[contains(@class,'a_suppliers_Supplier_Number')]"
     );
 
-
-
     // Add Supplier Method
-
 
     public void addSupplierDetails(
             String sname,
@@ -110,21 +107,15 @@ public class AddSuppliers {
             String mobile,
             String notesText) {
 
-
-
         // Click Suppliers menu
 
         wait.until(ExpectedConditions.elementToBeClickable(clickSuppliers))
                 .click();
 
-
-
         // Click Add icon
 
         wait.until(ExpectedConditions.elementToBeClickable(clickAddIcon))
                 .click();
-
-
 
         // Get generated supplier number
 
@@ -135,58 +126,42 @@ public class AddSuppliers {
                 driver.findElement(supplierNumber)
                         .getAttribute("value");
 
-
-
         // Enter supplier details
-
 
         driver.findElement(supplierName)
                 .sendKeys(sname);
 
-
         driver.findElement(address)
                 .sendKeys(Address);
-
 
         driver.findElement(city)
                 .sendKeys(cityName);
 
-
         driver.findElement(country)
                 .sendKeys(countryName);
-
 
         driver.findElement(contactPerson)
                 .sendKeys(contactPersonName);
 
-
         driver.findElement(phoneNumber)
                 .sendKeys(phone);
-
 
         driver.findElement(email)
                 .sendKeys(emailId);
 
-
         driver.findElement(mobileNumber)
                 .sendKeys(mobile);
-
 
         driver.findElement(notes)
                 .sendKeys(notesText);
 
-
-
-
         // Save Supplier
-
 
         WebElement addButton = wait.until(
                 ExpectedConditions.presenceOfElementLocated(
                         By.xpath("//button[@id='btnAction' and normalize-space(text())='Add']")
                 )
         );
-
 
         ((JavascriptExecutor)driver)
                 .executeScript(
@@ -201,57 +176,52 @@ public class AddSuppliers {
                         addButton
                 );
 
-
-
-
         // Confirmation popup
 
-
         wait.until(ExpectedConditions.elementToBeClickable(confirmOK))
-                .click();
-
-
+        .click();
 
         wait.until(ExpectedConditions.elementToBeClickable(alertOK))
-                .click();
+        .click();
+
+        // wait for popup close
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+        By.cssSelector(".ajs-dialog")
+        		));
+
+     wait.until(ExpectedConditions.visibilityOfElementLocated(searchPanel));
 
 
+     if(!driver.findElement(searchTextBox).isDisplayed()) {
+
+         wait.until(ExpectedConditions.elementToBeClickable(searchPanel))
+                 .click();
+
+     }
+
+     wait.until(ExpectedConditions.visibilityOfElementLocated(searchTextBox));
 
 
-
-        // Search Supplier
-
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(searchPanel));
+     driver.findElement(searchTextBox)
+             .clear();
 
 
-        if(!driver.findElement(searchTextBox).isDisplayed()) {
+     driver.findElement(searchTextBox)
+             .sendKeys(expectedNumber);
 
-            driver.findElement(searchPanel).click();
+     // Wait for search button and click using JS
 
-        }
-
-
-
-        wait.until(ExpectedConditions.visibilityOfElementLocated(searchTextBox));
-
+     WebElement searchBtn = wait.until(
+             ExpectedConditions.presenceOfElementLocated(searchButton)
+     );
 
 
-        driver.findElement(searchTextBox)
-                .clear();
-
-
-
-        driver.findElement(searchTextBox)
-                .sendKeys(expectedNumber);
-
-
-
-        wait.until(ExpectedConditions.elementToBeClickable(searchButton))
-                .click();
-
-
-
+     ((JavascriptExecutor)driver)
+             .executeScript(
+                     "arguments[0].click();",
+                     searchBtn
+             );
 
         // Wait for search loading completed
 
@@ -259,23 +229,15 @@ public class AddSuppliers {
                 By.xpath("//div[contains(@class,'ewGridMiddlePanel')]//div[contains(@class,'loading')]")
         ));
 
-
-
-
         // Wait supplier result
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(
                 By.xpath("//table[contains(@class,'ewTable')]//span[contains(@class,'a_suppliers_Supplier_Number')]")
         ));
 
-
-
         System.out.println("Supplier added successfully");
 
-
-
         // Validation
-
 
         String actualNumber =
                 wait.until(
@@ -283,14 +245,9 @@ public class AddSuppliers {
                 )
                 .getText();
 
-
-
         System.out.println("Expected Supplier Number: " + expectedNumber);
 
         System.out.println("Actual Supplier Number: " + actualNumber);
-
-
-
 
         Assert.assertTrue(
                 actualNumber.contains(expectedNumber),
@@ -299,7 +256,6 @@ public class AddSuppliers {
                         + " Actual: "
                         + actualNumber
         );
-
 
     }
 

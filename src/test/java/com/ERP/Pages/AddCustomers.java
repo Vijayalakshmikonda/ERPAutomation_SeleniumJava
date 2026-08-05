@@ -62,13 +62,11 @@ public class AddCustomers {
     By confirmOK = By.xpath("//button[text()='OK!']");
 
 
-    By alertOK = By.cssSelector(
-            "button.ajs-button.btn.btn-primary");
+    By alertOK = By.xpath("//button[contains(@class,'ajs-button') and contains(@class,'btn-primary')]");
 
 
     By searchPanel = By.cssSelector(
             ".glyphicon.glyphicon-search.ewIcon");
-
 
     By searchTextBox = By.xpath("//input[@id='psearch']");
 
@@ -186,17 +184,25 @@ public class AddCustomers {
                 );
 
         logger.info("Add Customer button clicked");
-        // Confirmation popup
+
+     // Confirmation popup
 
         wait.until(ExpectedConditions.elementToBeClickable(confirmOK))
                 .click();
 
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(alertOK));
 
 
         wait.until(ExpectedConditions.elementToBeClickable(alertOK))
                 .click();
 
 
+        // Wait until popup overlay disappears
+
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(
+                By.cssSelector(".ajs-dialog")
+        ));
 
 
         // Search customer
@@ -214,11 +220,23 @@ public class AddCustomers {
         wait.until(ExpectedConditions.visibilityOfElementLocated(searchTextBox));
 
         driver.findElement(searchTextBox).clear();
+
         driver.findElement(searchTextBox)
                 .sendKeys(expectedNumber);
 
-        wait.until(ExpectedConditions.elementToBeClickable(searchButton))
-        .click();
+
+        // Click search button safely for Jenkins execution
+
+        WebElement searchBtn = wait.until(
+                ExpectedConditions.presenceOfElementLocated(searchButton)
+        );
+
+
+        ((JavascriptExecutor)driver)
+                .executeScript(
+                        "arguments[0].click();",
+                        searchBtn
+                );
 
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
         By.xpath("//div[contains(@class,'ewGridMiddlePanel')]//div[contains(@class,'loading')]")
