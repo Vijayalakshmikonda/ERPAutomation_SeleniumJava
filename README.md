@@ -119,31 +119,47 @@ Install:
 - Eclipse / IntelliJ IDEA 
 - Chrome Browser
 
+# How to Run Tests
+
+## Prerequisites
+
+Install:
+
+- Java JDK 21
+- Maven
+- Eclipse / IntelliJ IDEA
+- Chrome Browser
+
+
 ## Run Using Maven
 
 Execute the following command from project root:
+
 ```bash
 mvn clean test
+```
 
-##Run Using TestNG
+## Run Using TestNG
 
 Right click on:
 
+```text
 testng.xml
+```
 
 Select:
 
+```text
 Run As → TestNG Suite
+```
 
 
 # Author
 
-Naga Vijayalakshmi Konda 
-QA Automation Test Engineer 
- 
+Naga Vijayalakshmi Konda
+
+QA Automation Test Engineer
+
 Skills:
+
 Java | Selenium | TestNG | Maven | Playwright | Jenkins
- 
- 
- 
- ## Clone Repository
