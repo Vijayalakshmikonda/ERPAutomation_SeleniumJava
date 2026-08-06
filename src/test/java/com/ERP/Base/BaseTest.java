@@ -1,4 +1,6 @@
 package com.ERP.Base;
+import com.ERP.Utils.ExtentManager;
+import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import java.time.Duration;
 
@@ -19,8 +21,15 @@ public class BaseTest {
 
 	public static Logger logger =
             LogManager.getLogger(BaseTest.class);
-	ExtentTest test;
+	
+	public static ExtentReports extent;
+	
+	static {
+        extent = ExtentManager.getInstance();
+    }
+	
     public WebDriver driver;
+    
     @BeforeMethod
     public void setup(ITestResult result) {
 

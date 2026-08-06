@@ -25,7 +25,10 @@ String notes) {
 
     System.out.println("Supplier: " + supplierName);
 
-    TestListener.test.info("Starting Add Supplier Test");
+    if(TestListener.test != null) {
+        TestListener.test.info("Starting Add Supplier Test");
+    }
+    
     AddSuppliers supplier =
     new AddSuppliers(driver);
     
@@ -41,6 +44,9 @@ String notes) {
             notes
     );
     
-    TestListener.test.pass("Supplier added successfully");
+    if(TestListener.test != null) {
+        TestListener.test.pass("Supplier added successfully");
+    }
 }
+
 }

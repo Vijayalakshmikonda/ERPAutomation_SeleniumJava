@@ -1,5 +1,7 @@
 package com.ERP.Pages;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
@@ -17,12 +19,13 @@ public class AddSuppliers {
     WebDriverWait wait;
 
 
-    // Constructor
-
+    
+    private static final Logger logger=LogManager.getLogger(AddSuppliers.class);
+ // Constructor
     public AddSuppliers(WebDriver driver) {
 
         this.driver = driver;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(20));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
     }
 
@@ -68,32 +71,26 @@ public class AddSuppliers {
 
 
 
-    By confirmOK = By.xpath("//button[text()='OK!']");
-
-
-    By alertOK = By.cssSelector(
-            "button.ajs-button.btn.btn-primary"
+    By confirmOK = By.xpath(
+            "//div[contains(@class,'ajs-dialog')]//button[text()='OK!']"
     );
 
-
-    By searchPanel = By.cssSelector(
-            ".glyphicon.glyphicon-search.ewIcon"
+    By alertOK = By.xpath(
+            "//div[contains(@class,'ajs-dialog')]//button[contains(@class,'ajs-button') and contains(@class,'btn-primary')]"
     );
-
+    
+    By searchPanel = By.xpath("//span[@data-phrase='SearchBtn']");
 
     By searchTextBox = By.xpath("//input[@id='psearch']");
 
-
     By searchButton = By.xpath("//button[@id='btnsubmit']");
-
-
 
     // Supplier table locator
 
     By supplierTable = By.xpath(
             "//table[contains(@class,'ewTable')]//span[contains(@class,'a_suppliers_Supplier_Number')]"
     );
-
+   
     // Add Supplier Method
 
     public void addSupplierDetails(
@@ -116,11 +113,11 @@ public class AddSuppliers {
 
         wait.until(ExpectedConditions.elementToBeClickable(clickAddIcon))
                 .click();
-
+        logger.info("Add Supplier button clicked");
+        
         // Get generated supplier number
 
         wait.until(ExpectedConditions.visibilityOfElementLocated(supplierNumber));
-
 
         String expectedNumber =
                 driver.findElement(supplierNumber)
@@ -177,28 +174,38 @@ public class AddSuppliers {
                 );
 
         // Confirmation popup
-
         wait.until(ExpectedConditions.elementToBeClickable(confirmOK))
         .click();
 
         wait.until(ExpectedConditions.elementToBeClickable(alertOK))
         .click();
 
-        // wait for popup close
-
         wait.until(ExpectedConditions.invisibilityOfElementLocated(
-        By.cssSelector(".ajs-dialog")
+        By.xpath("//div[contains(@class,'ajs-dialog') and contains(@class,'ajs-visible')]")
         		));
 
-     wait.until(ExpectedConditions.visibilityOfElementLocated(searchPanel));
+        logger.info("Supplier confirmation popup closed successfully");
+     
 
+     // Wait until Search panel becomes clickable
 
-     if(!driver.findElement(searchTextBox).isDisplayed()) {
+        wait.until(ExpectedConditions.elementToBeClickable(searchPanel));
 
-         wait.until(ExpectedConditions.elementToBeClickable(searchPanel))
-                 .click();
+        WebElement search =
+                wait.until(ExpectedConditions.visibilityOfElementLocated(searchPanel));
 
-     }
+        ((JavascriptExecutor)driver)
+                .executeScript("arguments[0].scrollIntoView(true);", search);
+        
+        if(driver.findElements(searchTextBox).isEmpty() ||
+        		   !driver.findElement(searchTextBox).isDisplayed()) {
+
+        		    WebElement searchIcon = wait.until(
+        		            ExpectedConditions.elementToBeClickable(searchPanel));
+
+        		    ((JavascriptExecutor)driver)
+        		            .executeScript("arguments[0].click();", searchIcon);
+        		}
 
      wait.until(ExpectedConditions.visibilityOfElementLocated(searchTextBox));
 
@@ -213,9 +220,8 @@ public class AddSuppliers {
      // Wait for search button and click using JS
 
      WebElement searchBtn = wait.until(
-             ExpectedConditions.presenceOfElementLocated(searchButton)
-     );
-
+    	        ExpectedConditions.elementToBeClickable(searchButton)
+    	);
 
      ((JavascriptExecutor)driver)
              .executeScript(
